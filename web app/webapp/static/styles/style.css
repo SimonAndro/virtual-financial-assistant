@@ -1,0 +1,17 @@
+body{
+    background-color: #ccc;
+}
+
+/* Navbar style */
+.navbar{
+    display: flex;
+}
+.navbar-menu{
+    display: flex;
+    float: right;
+}
+.navbar-menu li{
+    list-style: none;
+    margin-left: 50px;
+    
+}

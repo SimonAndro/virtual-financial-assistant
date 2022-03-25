@@ -61,6 +61,8 @@ def home(request):
 def services(request):
     return render(request, 'vfa/services.html')
 
+def stockMarket(request):
+    return render(request, 'vfa/stock_market.html')
 
 @login_required(login_url='login')
 def userDashboard(request, pk):

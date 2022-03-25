@@ -19,7 +19,7 @@
               </li>
               
               <li class="nav-item">
-                <a class="nav-link">About</a>
+                <a class="nav-link" href="{% url 'stock-market' %}">Stock Market</a>
               </li>
               {% if request.user.is_authenticated %}
               <li class="nab-item"><a href="{% url 'user-dashboard' request.user.id %}" class="nav-link">Dashboard</a></li>

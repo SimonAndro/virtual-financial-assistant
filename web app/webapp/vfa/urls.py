@@ -9,4 +9,5 @@ urlpatterns = [
     path('register', views.registerPage, name="register"),
     path('services', views.services, name="services"),
     path('user-dashboard/<str:pk>/', views.userDashboard, name="user-dashboard"),
+    path('stock-market', views.stockMarket, name="stock-market"),
 ]

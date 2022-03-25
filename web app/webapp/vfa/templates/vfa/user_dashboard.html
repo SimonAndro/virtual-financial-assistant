@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+
+<main class="container row">
+    <!-- Side menu start -->
+    <div class="show-side-menu">
+        <a href=""><i class="fas fa-bars col-3" id="show-menu"></i></a>
+    </div>
+
+    <div class="side-menu col-2" id="side-menu">
+        <div class="row">
+            <div class="col-10">
+                <p>Dashboard</p>
+            </div>
+            <div class="col-2">
+                <a href="" id="hide-menu"><i class="fas fa-bars col-3"></i></a>
+            </div>
+             
+        </div>
+
+        <div class="menu-options">
+            <ul>
+                <li><a href="#">Summary</a></li>
+                <li><a href="#">Your plan</a></li>
+                <li><a href="#">Transactions</a></li>
+                <li><a href="#">Query</a></li>
+            </ul>
+
+        </div>
+
+    </div> <!--Side menu end-->
+
+    <!-- Main content start -->
+    <div class="main-content col-10">
+           
+            <div class="user-info">
+                <img src="{% static 'images/user.png' %}" alt="Avatar">
+                <p>{{user.username}}</p>
+            </div>
+        
+        
+        <div class="row summary-container">
+            <div class="col-sm-5 graph">
+                <h4>Account Summary Chart</h4>
+                <img src="{% static 'images/graph.png' %}" alt="">
+            </div>
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5 balance">
+                <h4>User Account information</h4>
+                <p>Your Balance is: <span>${{account.balance}}</span></p>
+            </div>
+        </div>
+         <div class="transactions">
+             <h4>Recent Transactions</h4>
+             <table>
+                 <thead>
+                     <tr>
+                         <th>Date</th>
+                         <th>Amount</th>
+                         <th>Reason</th>
+                     </tr>
+                 </thead>
+                 
+                 <tbody>
+                     <tr>
+                         <td>2020-03-24</td>
+                         <td>-200</td>
+                         <td>Payment</td>
+                     </tr>
+                     <tr>
+                        <td>2020-03-24</td>
+                        <td>-200</td>
+                        <td>Payment</td>
+                    </tr>
+                    <tr>
+                        <td>2020-03-24</td>
+                        <td>-200</td>
+                        <td>Payment</td>
+                    </tr>
+                 </tbody>
+                 
+             </table>
+         </div>
+         
+    </div>
+     
+</main>
+
+
+{% endblock %}

@@ -8,15 +8,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Virtual Financial Assistant</title>
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <!-- Bootsrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap5/css/bootstrap.min.css' %}">
+    
 </head>
 <body>
    <!-- index.html is common html file for our apps in this project  -->
     {% include 'navbar.html' %}
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+     <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
 
+    <div class="container main-container">
     {% block content %}
     
 
     {% endblock %}
+    </div>
     
 </body>
+
+<!-- jqeury 3.6 -->
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="{% static 'bootstrap5/js/bootstrap.js' %}"></script>
+<!-- Fontawesome link -->
+<script src="https://kit.fontawesome.com/5bb84d25fd.js" crossorigin="anonymous"></script>
+
+<!-- Custom js  -->
+<script src="{% static 'js/script.js' %}"></script>
+
 </html>

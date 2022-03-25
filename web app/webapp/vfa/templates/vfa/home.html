@@ -1,11 +1,29 @@
 {% extends 'index.html' %}
-
+{% load static %}
 {% block content %}
 
-<div>
-    <h3>Home page</h3>
+
+    <div class="row">
+    <div class="col-sm-6 homeimg">
+        <img src="{% static 'images/bg.jpg' %}" alt="Image from pexels.com">
+    </div>
+    <div class="col-sm-6">
+        <h3>Virtual Financial Assitant</h3>
     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit enim similique ad nisi dolorum, eligendi quis eos consectetur sit eaque ab reprehenderit quod nihil, mollitia quia sint voluptatibus accusamus excepturi?</p>
-</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+        <h3>Why Virtual Financial Assitant?</h3>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit enim similique ad nisi dolorum, eligendi quis eos consectetur sit eaque ab reprehenderit quod nihil, mollitia quia sint voluptatibus accusamus excepturi?</p>
+    </div>
+    <div class="col-sm-6 homeimg">
+        <img src="{% static 'images/insight.jpg' %}" alt="Image from pexels.com">
+    </div>
+  </div>
+  
+
 
 
 

@@ -1,17 +1,115 @@
 body{
     background-color: #ccc;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 /* Navbar style */
-.navbar{
-    display: flex;
+
+
+.nv{
+    box-shadow: 0 5px 10px 0 #ccc;
 }
-.navbar-menu{
-    display: flex;
-    float: right;
+.main-container{
+    margin-top: 20px;
 }
-.navbar-menu li{
+/* Home */
+.homeimg img{
+    width: 100%;
+    height: auto;
+}
+
+/* Side menu in dashboard */
+.side-menu{
+    background-color: #2d2d39;
+    height: 92vh;
+    padding: 20px;
+    color: #fff;
+}
+.side-menu a i{
+    color: #ccc;
+}
+.menu-options{
+    text-align: left;
+
+}
+.menu-options ul li{
+    display: block;
+    padding: 10px;
     list-style: none;
-    margin-left: 50px;
+    color: #fff;
     
 }
+.menu-options a{
+    text-decoration: none;
+    color: #fff;
+}
+.show-side-menu{
+    display: none;
+}
+.user-info{
+    display: flex;
+    float: right;
+    margin-bottom: 5px;
+}
+.user-info img{
+    width: 50px;
+    height: 50px;
+    margin-left: 8px;
+}
+.user-info p{
+    display: block;
+    line-height: 2.5;
+    padding: 4px;
+    font-weight: bolder;
+}
+
+@media only screen and (max-width: 1000px) {
+    .side-menu{
+        display: none;
+    }
+}
+
+/* Summary container */
+.summary-container{
+    /* display: block; */
+    margin: 50px; 
+    height: fit-content;
+    width: 100%;
+    padding: 20px;
+    justify-content: space-between;
+
+}
+.graph{
+    /* display: block; */
+    border-radius: 6px;
+    box-shadow:  0 5px 10px 0 #ccc;
+    
+}
+.graph img{
+    width: 380px;
+    height: auto;
+}
+.balance{
+    /* height: 80%; */
+    width: fit-content;
+    /* margin-left: 10px; */
+    border-radius: 4px;
+    box-shadow: 0 5px 10px 0 #ccc;
+    
+}
+.transactions{
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px;
+}
+.transactions table{
+    width: 100%;
+    padding: 10px;
+    border: #2d2d39 solid 1px;
+}
+.transactions thead, th, tr, td{
+    border: solid 1px #2d2d39;
+    padding: 6px;
+}
+

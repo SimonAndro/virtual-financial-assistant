@@ -1,0 +1,12 @@
+README
+setup.cfg
+setup.py
+ofxhome/__init__.py
+ofxhome.egg-info/PKG-INFO
+ofxhome.egg-info/SOURCES.txt
+ofxhome.egg-info/dependency_links.txt
+ofxhome.egg-info/entry_points.txt
+ofxhome.egg-info/top_level.txt
+ofxhome.egg-info/zip-safe
+ofxhome/tests/__init__.py
+ofxhome/tests/test_suite.py

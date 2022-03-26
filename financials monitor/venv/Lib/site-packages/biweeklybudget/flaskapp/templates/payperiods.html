@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Pay Periods - BiweeklyBudget{% endblock %}
+{% block extra_head_css %}
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="/static/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
+
+    <style>
+        .calendar, .datepicker { display: inline-block; }
+    </style>
+{% endblock %}
+{% block body %}
+{% include 'notifications.html' %}
+            <div class="row" id="totals-row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-{{ periods[pp_curr_idx].overall_sums['remaining']|period_panel_color }}" id="panel-period-current">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge">{{ periods[pp_curr_idx].overall_sums['remaining']|dollars }}</div>
+                                    <div>Remaining this period</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/payperiod/{{ periods[pp_curr_idx].start_date|dateymd }}">
+                            <div class="panel-footer">
+                                <span class="pull-left">View {{ periods[pp_curr_idx].start_date|dateymd }} Pay Period</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-{{ periods[pp_next_idx].overall_sums['remaining']|period_panel_color }}" id="panel-period-next">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge">{{ periods[pp_next_idx].overall_sums['remaining']|dollars }}</div>
+                                    <div>Remaining next period</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/payperiod/{{ periods[pp_next_idx].start_date|dateymd }}">
+                            <div class="panel-footer">
+                                <span class="pull-left">View {{ periods[pp_next_idx].start_date|dateymd }} Pay Period</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-{{ periods[pp_following_idx].overall_sums['remaining']|period_panel_color }}" id="panel-period-following">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge">{{ periods[pp_following_idx].overall_sums['remaining']|dollars }}</div>
+                                    <div>Remaining following period</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/payperiod/{{ periods[pp_following_idx].start_date|dateymd }}">
+                            <div class="panel-footer">
+                                <span class="pull-left">View {{ periods[pp_following_idx].start_date|dateymd }} Pay Period</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Pay Periods <em><a href="/pay_period_for">(permalink to current pay period)</a></em></div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="pay-period-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Start Date</th>
+                                            <th>Allocated</th>
+                                            <th>Spent</th>
+                                            <th>Remaining</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for period in periods %}
+                                        {% if curr_pp.start_date == period.start_date %}
+                                        <tr class="info">
+                                            <td><a href="/payperiod/{{ period.start_date|dateymd }}">{{ period.start_date|dateymd }}</a> <em>(current)</em></td>
+                                        {% else %}
+                                        <tr>
+                                            <td><a href="/payperiod/{{ period.start_date|dateymd }}">{{ period.start_date|dateymd }}</a></td>
+                                        {% endif %}
+                                            <td>{{ period.overall_sums['allocated']|dollars }}</td>
+                                            <td>{{ period.overall_sums['spent']|dollars }}</td>
+                                            <td>{{ period.overall_sums['remaining']|reddollars|safe }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Find Pay Period</div>
+                        <form role="form" id="payperiod_date_form">
+                            <div class="form-group" id="payperiod_date_form_group" style="padding-top: 1em; padding-left: 1em;">
+                                <label for="payperiod_date_input" class="control-label" style="padding-right: 1em;">Date</label>
+                                <input id="payperiod_date_input" name="date" type="text" value="YYYY-mm-dd" size="10">
+                                <button type="button" class="btn btn-primary" id="payperiod-go-button">Go</button>
+                            </div>
+                        </form>
+                        <div class="calendar" id="cal1"></div>
+                        <div class="calendar" id="cal2"></div>
+                        <div class="calendar" id="cal3"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+{% endblock %}
+{% block extra_foot_script %}
+    <!-- BootStrap DatePicker JS -->
+    <script src="/utils/datetest.js"></script>
+    <script src="/static/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/payperiods.js"></script>
+{% endblock %}

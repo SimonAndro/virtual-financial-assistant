@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% block title %}Budgets - BiweeklyBudget{% endblock %}
+{% block extra_head_css %}
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="/static/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="/static/startbootstrap-sb-admin-2/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <script>
+        var acct_names_to_id = {};
+        {% for name in accts.keys()|sort %}
+        acct_names_to_id["{{ name }}"] = "{{ accts[name] }}";
+        {% endfor %}
+        var budget_names_to_id = {};
+        {% for id in budgets.keys()|sort %}
+        budget_names_to_id["{{ budgets[id] }}"] = "{{ id }}";
+        {% endfor %}
+    </script>
+{% endblock %}
+{% block body %}
+{% include 'notifications.html' %}
+            <div class="row" id="content-row">
+                <div class="col-lg-12">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> Spending By Budget, Per Pay Period
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div id="budget-per-period-chart"></div>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <i class="fa fa-bar-chart-o fa-fw"></i> Spending By Budget, Per Calendar Month
+                            </div><!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div id="budget-per-month-chart"></div>
+                            </div><!-- /.panel-body -->
+                        </div><!-- /.panel -->
+                    </div><!-- /.col-lg-6 -->
+                </div><!-- /.col-lg-12 -->
+                <div class="col-lg-12">
+                    <div><p>
+                        <button type="button" class="btn btn-primary" id="btn_add_budget">Add Budget</button>
+                        <button type="button" class="btn btn-primary" id="btn_budget_txfr">Transfer</button>
+                    </p></div>
+                    <div class="panel panel-default" id="panel-periodic-budgets">
+                        <div class="panel-heading">
+                            Periodic Budgets
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped" id="table-periodic-budgets">
+                                    <thead>
+                                        <tr>
+                                            <th>Active?</th>
+                                            <th>Budget</th>
+                                            <th>Starting Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for b in periodic %}
+                                        {% if b.is_active %}<tr>{% else %}<tr class="inactive">{% endif %}
+                                            {% if b.is_active %}<td>yes</td>{% else %}<td style="color: #a94442;">NO</td>{% endif %}
+                                        <td><a href="javascript:budgetModal({{ b.id }}, null)">{{ b.name }} ({{ b.id }})</a>{% if b.is_income %} <em class="text-success">(income)</em>{% endif %}</td>
+                                            <td>{{ b.starting_balance|dollars }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                    <div class="panel panel-default" id="panel-standing-budgets">
+                        <div class="panel-heading">
+                            Standing Budgets
+                        </div><!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover table-striped" id="table-standing-budgets">
+                                    <thead>
+                                        <tr>
+                                            <th>Active?</th>
+                                            <th>Budget</th>
+                                            <th>Current Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for b in standing %}
+                                        {% if b.is_active %}<tr>{% else %}<tr class="inactive">{% endif %}
+                                            {% if b.is_active %}<td>yes</td>{% else %}<td style="color: #a94442;">NO</td>{% endif %}
+                                            <td><a href="javascript:budgetModal({{ b.id }}, null)">{{ b.name }} ({{ b.id }})</a></td>
+                                            <td>
+                                                <span>{{ b.current_balance|dollars }}</span>
+                                            </td>
+                                        </td>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div><!-- /.table-responsive -->
+                        </div><!-- /.panel-body -->
+                    </div><!-- /.panel -->
+                </div><!-- /.col-lg-12 -->
+            </div><!-- /.row -->
+{% include 'modal.html' %}
+{% endblock %}
+{% block extra_foot_script %}
+<!-- BootStrap DatePicker JS -->
+<script src="/utils/datetest.js"></script>
+<script src="/static/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script>
+var default_account_id = {{ settings.DEFAULT_ACCOUNT_ID }};
+</script>
+<script src="/static/js/forms.js"></script>
+<script src="/static/js/formBuilder.js"></script>
+<script src="/static/js/budgets.js"></script>
+<script src="/static/js/budgets_modal.js"></script>
+<script src="/static/js/budget_transfer_modal.js"></script>
+<script>
+/* BEGIN conditional default modal for /budgets/<id> */
+{% if budget_id is defined and budget_id is not none %}
+budgetModal({{ budget_id }}, null);
+{% endif %}
+/* END conditional default modal for /budgets/<id> */
+$('#btn_budget_txfr').click(function() { budgetTransferModal(); });
+</script>
+
+<!-- Morris Charts JavaScript -->
+<script src="/static/startbootstrap-sb-admin-2/vendor/raphael/raphael.min.js"></script>
+<script src="/static/startbootstrap-sb-admin-2/vendor/morrisjs/morris.min.js"></script>
+<script src="/static/js/budget_charts.js"></script>
+{% endblock %}

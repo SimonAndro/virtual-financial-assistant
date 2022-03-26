@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block title %}{{ pp.start_date|dateymd }} to {{ pp.end_date|dateymd }} Pay Period - BiweeklyBudget{% endblock %}
+{% block extra_head_css %}
+    <!-- DataTables CSS -->
+    <link href="/static/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="/static/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="/static/bootstrap-datepicker/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
+
+    <script>
+        var acct_names_to_id = {};
+        {% for name in accts.keys()|sort %}
+        acct_names_to_id["{{ name }}"] = "{{ accts[name] }}";
+        {% endfor %}
+        var budget_names_to_id = {};
+        {% for id in budgets.keys()|sort %}
+        budget_names_to_id["{{ budgets[id] }}"] = "{{ id }}";
+        {% endfor %}
+    </script>
+{% endblock %}
+{% block body %}
+{% include 'notifications.html' %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Remaining Balances</div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="pay-period-table">
+                                    <thead>
+                                        <tr>
+                                            <th><a href="/payperiod/{{ pp_prev_date|dateymd }}">{{ pp_prev_date|dateymd }} <em>{{ pp_prev_suffix }}</em></a></th>
+                                            <th class="info">{{ pp_curr_date|dateymd }} <em>{{ pp_curr_suffix }}</em></th>
+                                            <th><a href="/payperiod/{{ pp_next_date|dateymd }}">{{ pp_next_date|dateymd }} <em>{{ pp_next_suffix }}</em></a></th>
+                                            <th><a href="/payperiod/{{ pp_following_date|dateymd }}">{{ pp_following_date|dateymd }} <em>{{ pp_following_suffix }}</em></a></th>
+                                            <th><a href="/payperiod/{{ pp_last_date|dateymd }}">{{ pp_last_date|dateymd }} <em>{{ pp_last_suffix }}</em></a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ pp_prev_sums['remaining']|reddollars|safe }}</td>
+                                            <td class="info">{{ pp_curr_sums['remaining']|reddollars|safe }}</td>
+                                            <td>{{ pp_next_sums['remaining']|reddollars|safe }}</td>
+                                            <td>{{ pp_following_sums['remaining']|reddollars|safe }}</td>
+                                            <td>{{ pp_last_sums['remaining']|reddollars|safe }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge" id="amt-income">{{ pp_curr_sums['income']|dollars }}</div>
+                                    <div>Income</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge" id="amt-allocated">{{ pp_curr_sums['allocated']|dollars }}</div>
+                                    <div>allocated</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge" id="amt-spent">{{ pp_curr_sums['spent']|dollars }}</div>
+                                    <div>spent</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-{{ pp_curr_sums['remaining']|period_panel_color }}">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-12 text-right">
+                                    <div class="huge" id="amt-remaining">{{ pp_curr_sums['remaining']|dollars }}</div>
+                                    <div>remaining</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- /panel -->
+                </div> <!-- /col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">Periodic Budgets - <button type="button" class="btn btn-xs btn-primary" id="btn-budg-txfr-periodic">Transfer</button>
+                        </div>
+                        <div class="table-responsive">
+                                <table class="table table-bordered" id="pb-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget</th>
+                                            <th>Amount</th>
+                                            <th>Allocated</th>
+                                            <th>Spent</th>
+                                            <th>Remaining</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for k in periodic.keys()|sort %}
+                                        <tr>
+                                            <!-- {{ budgets[k] }} -->
+                                            <td><a href="/budgets/{{ k }}">{{ budgets[k] }}</a></td>
+                                            <td>{{ budget_sums[k]['budget_amount']|dollars }}</td>
+                                            <td>{{ budget_sums[k]['allocated']|dollars }}</td>
+                                            <td>{{ budget_sums[k]['spent']|dollars }}</td>
+                                            <td>{{ budget_sums[k]['remaining']|reddollars|safe }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                    </div> <!-- /.panel -->
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">Standing Budgets - <button type="button" class="btn btn-xs btn-primary" id="btn-budg-txfr-standing">Transfer</button></div>
+                        <div class="table-responsive">
+                                <table class="table table-bordered" id="sb-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for k in standing.keys()|sort %}
+                                        <tr>
+                                            <td><a href="/budgets/{{ k }}">{{ budgets[k] }}</a></td>
+                                            <td>{{ standing[k]|reddollars|safe }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                    </div> <!-- /.panel panel-default -->
+                </div> <!-- /.col -->
+                <div class="col-lg-8 col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Transactions - <button type="button" class="btn btn-xs btn-primary" id="btn-add-txn">Add Transaction</button></div>
+                        <div class="table-responsive">
+                                <table class="table table-bordered" id="trans-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Description</th>
+                                            <th>Account</th>
+                                            <th>Budget</th>
+                                            <th>Scheduled?</th>
+                                            <th>Reconciled?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for t in transactions %}
+                                        <tr>
+                                            <td>{{ t['date']|dateymd }}</td>
+                                            <td>{{ t['amount']|dollars }}</td>
+                                            {% if t['type'] == 'Transaction' %}
+                                            <td><a href="javascript:transModal({{ t['id'] }}, null);">{{ t['description'] }} ({{ t['id'] }})</a></td>
+                                            {% else %}
+                                            <td><em>(sched)</em> <a href="javascript:schedModal({{ t['id'] }}, null);">{{ t['description'] }} ({{ t['id'] }})</a></td>
+                                            {% endif %}
+                                            <td><a href="/accounts/{{ t['account_id'] }}">{{ t['account_name'] }}</a></td>
+                                            <td>{{ t['budgets']|budgetCell|safe }}</td>
+                                            {% if t['type'] == 'Transaction' %}
+                                                {% if t['sched_trans_id'] != None %}
+                                            <td><em>(from <a href="javascript:schedModal({{ t['sched_trans_id'] }}, null);">{{ t['sched_trans_id'] }}</a>)</em></td>
+                                                {% else %}
+                                                <td>&nbsp;</td>
+                                                {% endif %}
+                                            {% else %}
+                                            <td><a href="javascript:schedToTransModal({{ t['id'] }}, '{{ pp.start_date|dateymd }}');">make trans.</a> | <a href="javascript:skipSchedTransModal({{ t['id'] }}, '{{ pp.start_date|dateymd }}');">skip</a></td>
+                                            {% endif %}
+                                            {% if t['reconcile_id'] != None %}
+                                            <td><a href="javascript:txnReconcileModal({{ t['reconcile_id'] }})">Yes ({{ t['reconcile_id'] }})</a></td>
+                                            {% else %}
+                                            <td>&nbsp;</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                    </div> <!-- /.panel panel-default -->
+                </div> <!-- /.col -->
+            </div>
+            <!-- /.row -->
+{% include 'modal.html' %}
+{% endblock %}
+{% block extra_foot_script %}
+    <!-- BootStrap DatePicker JS -->
+    <script src="/utils/datetest.js"></script>
+    <script src="/static/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/static/startbootstrap-sb-admin-2/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/static/startbootstrap-sb-admin-2/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<script>
+var default_account_id = {{ settings.DEFAULT_ACCOUNT_ID }};
+</script>
+<script src="/static/js/forms.js"></script>
+<script src="/static/js/formBuilder.js"></script>
+<script src="/static/js/transactions_modal.js"></script>
+<script src="/static/js/scheduled_modal.js"></script>
+<script src="/static/js/payperiod_modal.js"></script>
+<script src="/static/js/reconcile_modal.js"></script>
+<script src="/static/js/budget_transfer_modal.js"></script>
+<script>
+    $('#btn-add-txn').click(function() { transModal(null, null); });
+    $('#btn-budg-txfr-periodic').click(function() { budgetTransferModal('{{ txfr_date_str }}'); });
+    $('#btn-budg-txfr-standing').click(function() { budgetTransferModal('{{ txfr_date_str }}'); });
+</script>
+{% endblock %}

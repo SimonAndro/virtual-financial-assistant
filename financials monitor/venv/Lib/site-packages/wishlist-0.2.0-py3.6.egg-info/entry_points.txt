@@ -1,0 +1,3 @@
+[console_scripts]
+wishlist = wishlist.__main__:console
+

@@ -1,0 +1,16 @@
+MANIFEST.in
+README.md
+setup.cfg
+setup.py
+hvac/__init__.py
+hvac/exceptions.py
+hvac/version
+hvac.egg-info/PKG-INFO
+hvac.egg-info/SOURCES.txt
+hvac.egg-info/dependency_links.txt
+hvac.egg-info/requires.txt
+hvac.egg-info/top_level.txt
+hvac/tests/__init__.py
+hvac/tests/test_integration.py
+hvac/tests/util.py
+hvac/v1/__init__.py

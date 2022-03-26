@@ -1,15 +1,167 @@
 {% extends 'index.html' %}
 
+{% load static %}
 {% block content %}
-<div class="container">
+<main class="container">
     <div class="stock-market">
        <h4>Stock Market</h4>
-        <div class="head-info">
+        <div class="category">
+            <ul>
+                <li class="active-cat"><a href="">Currencies</a></li>
+                <li><a href="">Crypto</a></li>
+                <li><a href="">Africa</a></li>
+                <li><a href="">Asia</a></li>
+                <li><a href="">Europe</a></li>
+                <li><a href="">US</a></li>
+            </ul>
+        </div>
+
+        <div class="info-block">
+            <div class="info">
+                <p class="curr-abr">USD/RMB</p>
+                <p>6.3345</p>
+                <p class="rate-change">0.0000</p>
+            </div>
+
+            <div class="info">
+                <p class="curr-abr">EUR/HKD</p>
+                <p>8.6023</p>
+                <p class="rate-change"><i class="fa-solid fa-arrow-down"></i>0.0022</p>
+            </div>
+            <div class="info">
+                <p class="curr-abr">JPY/HKD</p>
+                <p>0.3345</p>
+                <p class="rate-change">0.0000</p>
+            </div>
+
+            <div class="info">
+                <p class="curr-abr">GBP/HKD</p>
+                <p>10.3345</p>
+                <p class="rate-change"><i class="fa-solid fa-arrow-up"></i>0.0000</p>
+            </div>
+
+            <div class="info">
+                <p class="curr-abr">AUD/HKD</p>
+                <p>5.8845</p>
+                <p class="rate-change"><i class="fa-solid fa-arrow-up"></i>0.0000</p>
+            </div>
+
+          </div> <!-- Info block-->
+        <div class="search-form">
+            <form action=""> 
+                <input type="text", name="search", placeholder="Search for stocks, ETFS & more">
+            </form>
+        </div>
+
+        <div class="build-watchlist">
+            <!-- <i class="fa-solid fa-list"></i> -->
+            <div>
+                <p class="head-title">Build a Watchlist </p>
+                <p class="msg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis porro impedit temporibus ab tempora duci</p>
+            </div>
+           <div class="button">
+               <button class="btn btn-primary">Sign In</button>
+           </div>
+        </div>
+
+        <div class="suggestion">
+            <h6>You may be instersted in </h6>
+            <div class="suggest-list">
+                <div class="list-item">
+                    <p>Index</p>
+                </div>
+
+                <div class="list-item">
+                    <p>SSE Composite Index</p>
+                </div>
+                <div class="list-item">
+                    <p>$13.14</p>
+                </div>
+                <div class="list-item">
+                    <p>-$1.14</p>
+                </div>
+                <div class="list-item">
+                    <p>37%</p>
+                </div>
+
+                <div class="list-item">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </div>
+
+            <div class="suggest-list">
+                <div class="list-item">
+                    <p>Index</p>
+                </div>
+
+                <div class="list-item">
+                    <p>SSE Composite Index</p>
+                </div>
+                <div class="list-item">
+                    <p>$13.14</p>
+                </div>
+                <div class="list-item">
+                    <p>-$1.14</p>
+                </div>
+                <div class="list-item">
+                    <p>37%</p>
+                </div>
+
+                <div class="list-item">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </div>
+
+            <div class="suggest-list">
+                <div class="list-item">
+                    <p>Index</p>
+                </div>
+
+                <div class="list-item">
+                    <p>SSE Composite Index</p>
+                </div>
+                <div class="list-item">
+                    <p>$13.14</p>
+                </div>
+                <div class="list-item">
+                    <p>-$1.14</p>
+                </div>
+                <div class="list-item">
+                    <p>37%</p>
+                </div>
+
+                <div class="list-item">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </div>
+
+            <div class="suggest-list">
+                <div class="list-item">
+                    <p>Index</p>
+                </div>
+
+                <div class="list-item">
+                    <p>SSE Composite Index</p>
+                </div>
+                <div class="list-item">
+                    <p>$13.14</p>
+                </div>
+                <div class="list-item">
+                    <p>-$1.14</p>
+                </div>
+                <div class="list-item">
+                    <p>37%</p>
+                </div>
+
+                <div class="list-item">
+                    <p><i class="fa-solid fa-plus"></i></p>
+                </div>
+            </div>
 
         </div>
 
     </div>
    
-</div>
+</main>
 
 {% endblock %}

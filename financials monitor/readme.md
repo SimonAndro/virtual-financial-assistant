@@ -7,9 +7,11 @@ The system has been packaged in a virtual environment with all modules installed
 
     - Simply create a mysql database with a name 'biweekly'
     - Activate the virtual enviroment
-    ```
-    .\venv\Scripts\activate #activate virtual environment
-    ```
+
+```
+.\venv\Scripts\activate #activate virtual environment
+```
+
     - Run the simple_run.bat from the cmd. This file has the initialization and configuration already set up so you need not do anything more.
     - open browser and visit the url and port to which the flask server is listening.
     - Enjoy!!!

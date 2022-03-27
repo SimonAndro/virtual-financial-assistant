@@ -10,4 +10,5 @@ urlpatterns = [
     path('services', views.services, name="services"),
     path('user-dashboard/<str:pk>/', views.userDashboard, name="user-dashboard"),
     path('stock-market', views.stockMarket, name="stock-market"),
+    path('ai-chat', views.aiChat, name="ai-chat"),
 ]

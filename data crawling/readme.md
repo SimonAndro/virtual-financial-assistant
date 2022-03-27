@@ -1,5 +1,5 @@
 ## Code that is concerned with data crawling goes here
-We performed the first scraping stage, we collected data related to the crypo market.
+We performed the first scraping stage by collecting data related to the crypo market. In the TDO below we, present the tasks to be done next.
 ### TODO:
 1. Scraping Currencies
 2. Scraping World Indices
@@ -8,9 +8,9 @@ We performed the first scraping stage, we collected data related to the crypo ma
 5. Scraping financial news
 6. Improve the scraping engine
 
-In order to execute the code run the following command,
+*In order to execute the code run the following command*
 ```
-run python scraping.py__
+run python scraping.py
 ```
 ### Dependencies
 - BeautifulSoup

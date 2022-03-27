@@ -1,4 +1,5 @@
 
+from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -70,3 +71,8 @@ def userDashboard(request, pk):
     account = Account.objects.get(id=pk)
     context = {'user':user, 'account':account}
     return render(request, 'vfa/user_dashboard.html', context)
+
+@login_required(login_url='chat')
+def aiChat(request):
+    context = {}
+    return render(request, 'vfa/chat.html', context)

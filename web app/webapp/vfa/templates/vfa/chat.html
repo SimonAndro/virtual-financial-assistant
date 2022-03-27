@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% load static %}
+{% block content  %}
+
+<main class="container row">
+    <!-- Side menu -->
+    {% include 'vfa/menu_component.html' %}
+
+    <div class="main-content col-10">
+        <div class="user-info">
+            <img src="{% static 'images/user.png' %}" alt="Avatar">
+            <p>{{user.username}}</p>
+        </div>
+
+        <div class="chat-window">
+           <div class="bot-messagebox">
+               <div class="message">
+                    <p>Hello, How can I help you?</p>
+               </div>
+           </div><!--Bot-message box -->
+
+           <div class="user-messagebox">
+                <div class="message">
+                    <p>Set groceries bugdet to $200 for this month</p>
+                </div>
+           </div><!--User-message box -->
+
+           <div class="bot-messagebox">
+            <div class="message">
+                 <p>Setting groceries budget to $200...</p>
+            </div>
+        </div><!--Bot-message box -->
+
+        <form class="user-message-input" action="">
+            <input type="text" name="user-message" id="" placeholder="Type your message here">
+            <button class="btn">Send</button>
+        </form>
+        
+        </div> <!--Chat window -->
+
+    </div>
+
+</main>
+
+
+{% endblock %}

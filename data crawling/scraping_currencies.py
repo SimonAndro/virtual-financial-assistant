@@ -36,9 +36,9 @@ def currencyData():
         for change in listing.find_all('td', attrs={'aria-label':'Change'}):
             # print(change.text)
             changes.append(change.text)
-    #     for percentChange in listing.find_all('td', attrs={'aria-label':'% Change'}):
-    #         # print(percentChange.text)
-    #         percentChanges.append(percentChange.text)
+        for percentChange in listing.find_all('td', attrs={'aria-label':'% Change'}):
+            # print(percentChange.text)
+            percentChanges.append(percentChange.text)
     #     for marketCap in listing.find_all('td', attrs={'aria-label':'Market Cap'}):
     #         # print(marketCap.text)
     #         marketCaps.append(marketCap.text)

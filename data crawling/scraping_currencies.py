@@ -23,7 +23,7 @@ page_html = requests.get(currenciesUrl)
 page_data = page_html.text
 soup = BeautifulSoup(page_data, 'lxml')
 
-def currencyData():
+def currencyToData():
     for listing in soup.find_all('tr', attrs={'class':'simpTblRow'}):
         # print(listing.text)
         for name in listing.find_all('td', attrs={"aria-label":"Name"}):
@@ -39,51 +39,35 @@ def currencyData():
         for percentChange in listing.find_all('td', attrs={'aria-label':'% Change'}):
             # print(percentChange.text)
             percentChanges.append(percentChange.text)
-    #     for marketCap in listing.find_all('td', attrs={'aria-label':'Market Cap'}):
-    #         # print(marketCap.text)
-    #         marketCaps.append(marketCap.text)
-    #     for totalVolume in listing.find_all('td', attrs={'aria-label':'Total Volume All Currencies (24Hr)'}):
-    #         # print(totalVolume.text)
-    #         totalVolumes.append(totalVolume.text)
-    #     for circulatingSupply in listing.find_all('td', attrs={'aria-label':'Circulating Supply'}):
-    #         # print(circulatingSupply.text)
-    #         circulatingSupplys.append(circulatingSupply.text)
-    # return names, prices, changes, percentChanges, marketCaps, totalVolumes, circulatingSupplys
-
-# cryptoData()
-# cryptoDf = pd.DataFrame({"Names": names, 
+    
+# currencyToData()
+# currencytoDf = pd.DataFrame({
+#                          "Names": names, 
 #                         "Prices": prices, 
 #                         "Change": changes, 
-#                         "% Change": percentChanges, 
-#                         "Market Cap":marketCaps, 
-#                         "Volume": totalVolumes,
-#                         "Circulating Supply":circulatingSupplys
+#                         "% Change": percentChanges,                     
 #                         })
 
 # saving the cryptoData to csv
 # file_name = 'B:/_GITHUB/virtual-financial-assistant/data crawling/crytoData.csv'
-# cryptoDf.to_csv(file_name, encoding='utf-8', index=False)
+# currencytoDf.to_csv(file_name, encoding='utf-8', index=False)
 
 # repeat the process
 if __name__ == '__main__':
-    # latest = 0
-    # while True:
-    #     cryptoData() 
-    #     print("starting....")
-    #     cryptoDf = pd.DataFrame({
-    #                         "Names": names, 
-    #                         "Prices": prices, 
-    #                         "Change": changes, 
-    #                         "% Change": percentChanges, 
-    #                         "Market Cap":marketCaps, 
-    #                         "Volume": totalVolumes,
-    #                         "Circulating Supply":circulatingSupplys
-    #                             })
-    #     file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/crytoData_{latest}.csv'
-    #     cryptoDf.to_csv(file_name, encoding='utf-8', index=False)
-    #     print("done....")
-    #     repeat_time = 10
-    #     print(f"waiting {repeat_time} minutes...to get new crtyo currency data")
-    #     latest += 1
-    #     time.sleep(repeat_time*60)
-    currencyData()
+    latest = 0
+    while True:
+        currencyToData() 
+        print("starting....")
+        currencytoDf = pd.DataFrame({
+                        "Names": names, 
+                        # "Prices": prices, 
+                        "Change": changes, 
+                        "% Change": percentChanges,                     
+                                                    })
+        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/currencytoData_{latest}.csv'
+        currencytoDf.to_csv(file_name, encoding='utf-8', index=False)
+        print("done....")
+        repeat_time = 10
+        print(f"waiting {repeat_time} minutes...to get new crtyo currency data")
+        latest += 1
+        time.sleep(repeat_time*60)

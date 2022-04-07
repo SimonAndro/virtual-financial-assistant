@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 
-# Scraping Most active stock prices
+# Scraping World index
 names=[]
 prices=[]
 changes=[]
@@ -13,19 +13,18 @@ marketCaps=[]
 totalVolumes=[]
 circulatingSupplys=[]
 
-for i in range(0,10):
-  CryptoCurrenciesUrl = "https://finance.yahoo.com/most-active?offset="+str(i)+"&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;count=50"
-  r= requests.get(CryptoCurrenciesUrl)
-  data=r.text
-  soup=BeautifulSoup(data, "lxml")
+worldIndicesUrl = 'https://finance.yahoo.com/world-indices/'
+page_html = requests.get(worldIndicesUrl)
+page_data = page_html.text
+soup = BeautifulSoup(page_data, 'lxml')
 
-def stock_price_data():
+def world_indices_data():
     for listing in soup.find_all('tr', attrs={'class':'simpTblRow'}):
 
         for name in listing.find_all('td', attrs={"aria-label":"Name"}):
             # print(name.text)
             names.append(name.text)
-        for price in listing.find_all('td', attrs={'aria-label':'Price (Intraday)'}):
+        for price in listing.find_all('td', attrs={'aria-label':'Last Price'}):
             # print(price.text)
             # prices.append(price.find('span').text)
             prices.append(price.text)
@@ -35,16 +34,10 @@ def stock_price_data():
         for percentChange in listing.find_all('td', attrs={'aria-label':'% Change'}):
             # print(percentChange.text)
             percentChanges.append(percentChange.text)
-        for marketCap in listing.find_all('td', attrs={'aria-label':'Market Cap'}):
-            # print(marketCap.text)
-            marketCaps.append(marketCap.text)
-        for totalVolume in listing.find_all('td', attrs={'aria-label':'Avg Vol (3 month)'}):
+        for totalVolume in listing.find_all('td', attrs={'aria-label':'Volume'}):
             # print(totalVolume.text)
             totalVolumes.append(totalVolume.text)
-        for circulatingSupply in listing.find_all('td', attrs={'aria-label':'Volume'}):
-            # print(circulatingSupply.text)
-            circulatingSupplys.append(circulatingSupply.text)
-    return names, prices, changes, percentChanges, marketCaps, totalVolumes, circulatingSupplys
+    return names, prices, changes, percentChanges, totalVolumes
 
 if __name__ == '__main__':
     latest = 0
@@ -56,14 +49,12 @@ if __name__ == '__main__':
                             "Prices": prices, 
                             "Change": changes, 
                             "% Change": percentChanges, 
-                            "Market Cap":marketCaps, 
                             "Volume": totalVolumes,
-                            "Circulating Supply":circulatingSupplys
-                                })
-        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/most active stocks data {latest}.csv'
+                            })
+        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/world indice data {latest}.csv'
         cryptoDf.to_csv(file_name, encoding='utf-8', index=False)
         print("done....")
-        repeat_time = 1
-        print(f"waiting {repeat_time} minutes...to get new most active stocks data")
+        repeat_time = 1 # {1:1 minute; 2: 2 minutes ... n: n minutes}
+        print(f"waiting {repeat_time} minutes...to get new world indice data")
         latest += 1
         time.sleep(repeat_time*60)

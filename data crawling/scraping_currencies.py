@@ -64,10 +64,10 @@ if __name__ == '__main__':
                         "Change": changes, 
                         "% Change": percentChanges,                     
                                                     })
-        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/currencytoData_{latest}.csv'
+        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/currency data {latest}.csv'
         currencytoDf.to_csv(file_name, encoding='utf-8', index=False)
         print("done....")
         repeat_time = 10
-        print(f"waiting {repeat_time} minutes...to get new crtyo currency data")
+        print(f"waiting {repeat_time} minutes...to get new currency data")
         latest += 1
         time.sleep(repeat_time*60)

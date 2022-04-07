@@ -81,10 +81,10 @@ if __name__ == '__main__':
                             "Volume": totalVolumes,
                             "Circulating Supply":circulatingSupplys
                                 })
-        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/crytoData_{latest}.csv'
+        file_name = f'B:/_GITHUB/virtual-financial-assistant/data crawling/crypocurrency data {latest}.csv'
         cryptoDf.to_csv(file_name, encoding='utf-8', index=False)
         print("done....")
         repeat_time = 10
-        print(f"waiting {repeat_time} minutes...to get new crtyo currency data")
+        print(f"waiting {repeat_time} minutes...to get new cryptocurrency data")
         latest += 1
         time.sleep(repeat_time*60)

@@ -16,10 +16,11 @@
 
     <div class="menu-options">
         <ul>
-            <li><a href="#">Summary</a></li>
+            <li><a href="{% url 'user-dashboard' request.user.id %}">Summary</a></li>
             <li><a href="#">Your plan</a></li>
             <li><a href="#">Transactions</a></li>
             <li><a href="{% url 'ai-chat' %}">Query</a></li>
+            <li><a href="#">Financial Monitor</a></li>
         </ul>
 
     </div>

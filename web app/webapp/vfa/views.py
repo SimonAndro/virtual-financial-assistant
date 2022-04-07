@@ -1,11 +1,12 @@
 
-from multiprocessing import context
+import pandas as pd
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from . import crypto
 
 from vfa.models import Account
 
@@ -62,9 +63,6 @@ def home(request):
 def services(request):
     return render(request, 'vfa/services.html')
 
-def stockMarket(request):
-    return render(request, 'vfa/stock_market.html')
-
 @login_required(login_url='login')
 def userDashboard(request, pk):
     user = request.user
@@ -76,3 +74,16 @@ def userDashboard(request, pk):
 def aiChat(request):
     context = {}
     return render(request, 'vfa/chat.html', context)
+
+def cryptoData(request):
+    with open('static\data\crytoData_4.csv', 'r+', encoding='utf-8' ) as file:
+        # csvfile = request.FILES['file']
+        df = pd.read_csv(file)
+        # crypto_dict = df.to_dict()
+    return df
+
+def stockMarket(request):
+    dataFrame = cryptoData(request)
+    df_table = dataFrame.to_html()
+    context = {'laoded': df_table}
+    return render(request, 'vfa/stock_market.html', context)

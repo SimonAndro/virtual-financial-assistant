@@ -53,6 +53,7 @@
             </form>
         </div>
 
+        {% if request.user.is_authenticated == 'False' %}
         <div class="build-watchlist">
             <!-- <i class="fa-solid fa-list"></i> -->
             <div>
@@ -63,6 +64,7 @@
                <button class="btn btn-primary">Sign In</button>
            </div>
         </div>
+        {% endif %}
 
         <div class="suggestion">
             <h6>You may be instersted in </h6>

@@ -1,11 +1,12 @@
 
-from multiprocessing import context
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from . import crypto
 
 from vfa.models import Account
 
@@ -63,7 +64,8 @@ def services(request):
     return render(request, 'vfa/services.html')
 
 def stockMarket(request):
-    return render(request, 'vfa/stock_market.html')
+    context_dict = crypto.cryptoDict()
+    return render(request, 'vfa/stock_market.html', context_dict)
 
 @login_required(login_url='login')
 def userDashboard(request, pk):
